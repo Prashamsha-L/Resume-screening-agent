@@ -1,6 +1,9 @@
 # Resume-screening-agent
 Resume Screening Agent is an AI-powered tool that automatically analyzes resumes against job descriptions using machine learning and natural language processing to score candidates (0-100%), identify strengths, and highlight skill gaps.
 
+## Demo Video link
+https://drive.google.com/file/d/14CUe-jNiqWqhiAxjhWXyZpmzOPvAY3jo/view?usp=sharing
+
 ## Features
 - Batch upload & process multiple PDF resumes with progress bar
 - Gemini AI scoring (0-100%) with strengths & skill gaps analysis
