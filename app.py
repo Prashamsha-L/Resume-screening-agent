@@ -106,38 +106,37 @@ MISSING: bullet points"""
         return "SCORE: 0%\nSTRENGTHS:\nMISSING:"
 
 def parse_result(text):
-    score = 0
-    if "SCORE:" in text:
-        score_match = re.search(r'SCORE:\s*(\d+)', text.upper())
-        score = int(score_match.group(1)) if score_match else 0
+    st.write("📄 DEBUG - Raw text:", text[:300] + "...")  # REMOVE after fix
     
-    strengths_raw = re.findall(r'STRENGTHS:\s*(.+?)(?=\n[A-Z]|$)', text, re.IGNORECASE | re.DOTALL)
-    gaps_raw = re.findall(r'MISSING:\s*(.+?)(?=\n[A-Z]|$)', text, re.IGNORECASE | re.DOTALL)
+    # Fix score extraction - case insensitive
+    score_match = re.search(r'score[:\s]*(\d+)', text, re.IGNORECASE)
+    score = int(score_match.group(1)) if score_match else 0
     
+    # Fix strengths extraction
+    strengths_match = re.search(r'strengths?[:\s]*([\s\S]*?)(?=\n?missing|$)'
+                               , text, re.IGNORECASE)
     strengths = []
-    if strengths_raw:
-        for s in strengths_raw[0].split('\n'):
-            
-            clean_s = re.sub(r'[*•‣▪▸▹►▬\-—★☆✦✧●◉◎]+', '', s)
-            clean_s = re.sub(r'\s+', ' ', clean_s.strip())
-            clean_s = re.sub(r'^[:;\-]+|\s+[:;\-]*$', '', clean_s.strip())
-            if clean_s and len(clean_s) > 10:
-                strengths.append(clean_s)
+    if strengths_match:
+        for line in strengths_match.group(1).split('\n'):
+            clean = re.sub(r'[*•‣▪▸▹►▬\-\—★☆✦✧●◉◎]+', '', line.strip())
+            clean = re.sub(r'\s+', ' ', clean).strip(' :;-')
+            if len(clean) > 5:
+                strengths.append(clean)
     
+    # Fix gaps extraction  
+    gaps_match = re.search(r'missing[:\s]*([\s\S]*?)$', text, re.IGNORECASE)
     gaps = []
-    if gaps_raw:
-        for g in gaps_raw[0].split('\n'):
-            clean_g = re.sub(r'[*•‣▪▸▹►▬\-—★☆✦✧●◉◎]+', '', g)
-            clean_g = re.sub(r'\s+', ' ', clean_g.strip())
-            clean_g = re.sub(r'^[:;\-]+|\s+[:;\-]*$', '', clean_g.strip())
-            if clean_g and len(clean_g) > 10:
-                gaps.append(clean_g)
+    if gaps_match:
+        for line in gaps_match.group(1).split('\n'):
+            clean = re.sub(r'[*•‣▪▸▹►▬\-\—★☆✦✧●◉◎]+', '', line.strip())
+            clean = re.sub(r'\s+', ' ', clean).strip(' :;-')
+            if len(clean) > 5:
+                gaps.append(clean)
     
-    return {
-        "score": score,
-        "strengths": strengths,
-        "gaps": gaps
-    }
+    st.write(f"✅ DEBUG - Parsed: Score={score}, Strengths={len(strengths)}")  # REMOVE after fix
+    
+    return {"score": score, "strengths": strengths[:3], "gaps": gaps[:3]}
+
 
 def get_score_text(score):
     if score >= 90: return "Excellent Match"
@@ -208,7 +207,7 @@ with col2:
 </style>
 """, unsafe_allow_html=True)
 
-if st.button("Screen Resume",type="primary", use_container_width=True):
+if st.button("Screen Resumes",type="primary", use_container_width=True):
 
         if not job_desc.strip():
             st.error("Enter job description")
