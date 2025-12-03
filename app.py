@@ -168,8 +168,7 @@ with col1:
         <h3 style='color: #1e293b; margin: 0; font-size: 1.4rem;'>Job Description</h3>
     </div>
     """, unsafe_allow_html=True)
-    job_desc = st.text_area("", height=250, label_visibility="collapsed", 
-                           placeholder="Enter complete job description including required skills, experience, qualifications...")
+    job_desc = st.text_area("Enter complete job description", height=250, label_visibility="collapsed")
 
 with col2:
     st.markdown("""
@@ -177,7 +176,7 @@ with col2:
         <h3 style='color: #1e293b; margin: 0; font-size: 1.4rem;'>Upload Resumes</h3>
     </div>
     """, unsafe_allow_html=True)
-    files = st.file_uploader("", type="pdf", accept_multiple_files=True, label_visibility="collapsed")
+    files = st.file_uploader("Upload Resumes (PDF)", type="pdf", accept_multiple_files=True, label_visibility="collapsed")
 
 # Screen Resume button
 col1, col2, col3 = st.columns([2,1,2])
