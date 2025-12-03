@@ -106,7 +106,7 @@ MISSING: bullet points"""
         return "SCORE: 0%\nSTRENGTHS:\nMISSING:"
 
 def parse_result(text):
-    st.write("📄 DEBUG - Raw text:", text[:300] + "...")  # REMOVE after fix
+    st.write("DEBUG - Raw text:", text[:300] + "...")  # REMOVE after fix
     
     # Fix score extraction - case insensitive
     score_match = re.search(r'score[:\s]*(\d+)', text, re.IGNORECASE)
@@ -133,7 +133,7 @@ def parse_result(text):
             if len(clean) > 5:
                 gaps.append(clean)
     
-    st.write(f"✅ DEBUG - Parsed: Score={score}, Strengths={len(strengths)}")  # REMOVE after fix
+    st.write(f"DEBUG - Parsed: Score={score}, Strengths={len(strengths)}")  # REMOVE after fix
     
     return {"score": score, "strengths": strengths[:3], "gaps": gaps[:3]}
 
