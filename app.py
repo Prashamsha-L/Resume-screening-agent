@@ -208,7 +208,7 @@ with col2:
 </style>
 """, unsafe_allow_html=True)
 
-if st.button("Screen Resumes",type="primary", use_container_width=True):
+if st.button("Screen Resume",type="primary", use_container_width=True):
 
         if not job_desc.strip():
             st.error("Enter job description")
